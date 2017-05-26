@@ -2,5 +2,5 @@
     <string name="app_name">Categorizer</string>
     <string name="btn_yes">Ja</string>
     <string name="btn_no">Nein</string>
-    <string name="dialog_title_caution">Achtung</string>
+    <string name="dialog_title_delete">Löschen</string>
 </resources>

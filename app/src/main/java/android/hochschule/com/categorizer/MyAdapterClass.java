@@ -84,7 +84,6 @@ class MyAdapterClass extends BaseExpandableListAdapter {
 
         TextView childHeader = (TextView) convertView.findViewById(R.id.childItem);
         ImageView delete = (ImageView) convertView.findViewById(R.id.delItem);
-        ImageView edit = (ImageView) convertView.findViewById(R.id.editItem);
 
         final int grpID = groupPosition;
         final int childID = childPosition;
@@ -93,7 +92,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 final AlertDialog alert = new AlertDialog.Builder(context).create();
-                alert.setTitle(context.getResources().getString(R.string.dialog_title_caution));
+                alert.setTitle(context.getResources().getString(R.string.dialog_title_delete));
                 alert.setMessage("\"" + item.getName() + "\" wirklich löschen?");
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
@@ -112,13 +111,6 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                     }
                 });
                 alert.show();
-            }
-        });
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "\"" + item.getName() + "\" bearbeiten", Toast.LENGTH_SHORT).show();
             }
         });
 
