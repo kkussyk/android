@@ -14,17 +14,16 @@ public class MainActivity extends AppCompatActivity {
 
     private LinkedHashMap<String, CategoryClass> subjects = new LinkedHashMap<String, CategoryClass>();
     private ArrayList<CategoryClass> categories = new ArrayList<CategoryClass>();
-    private MyAdapterClass listAdapter;
-    private ExpandableListView expandableListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //starting expandable list
         loadData();
-        expandableListView = (ExpandableListView) findViewById(R.id.expList);
-        listAdapter = new MyAdapterClass(MainActivity.this, categories);
+        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expList);
+        MyAdapterClass listAdapter = new MyAdapterClass(MainActivity.this, categories);
         expandableListView.setAdapter(listAdapter);
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -32,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 CategoryClass category = categories.get(groupPosition);
                 ItemClass item = category.getItems().get(childPosition);
-                Toast.makeText(getBaseContext(), "Clicked on :: " + category.getName()
-                        + "/" + item.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Kategorie: " + category.getName()
+                        + " Item: " + item.getName(), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -42,26 +41,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 CategoryClass category = categories.get(groupPosition);
-                Toast.makeText(getBaseContext(), " Header is :: " + category.getName(),
+                Toast.makeText(getBaseContext(), "Kategorie: " + category.getName(),
                         Toast.LENGTH_SHORT).show();
 
                 return false;
             }
         });
+        //end of expandable list
+
     }
 
     private void loadData() {
-
         addSubject("Filme", "Harry Potter 1");
         addSubject("Filme", "Fluch der Karibik 5");
         addSubject("Filme", "Terminator 1");
         addSubject("Suppenrezepte", "Pasul");
-        addSubject("Suppenrezepte", "Hochzeitssuppe");
+        addSubject("Suppenrezepte", "Hochzeitssupppppppppppppppppppppppppe");
     }
 
     private void addSubject(String grpHeader, String itemName) {
-        int groupPosition = 0;
-
         CategoryClass category = subjects.get(grpHeader);
         if (category == null) {
             category = new CategoryClass();
@@ -69,14 +67,10 @@ public class MainActivity extends AppCompatActivity {
             subjects.put(grpHeader, category);
             categories.add(category);
         }
-
         ArrayList<ItemClass> items = category.getItems();
-
         ItemClass item = new ItemClass();
         item.setName(itemName);
         items.add(item);
         category.setItems(items);
-
-        groupPosition = categories.indexOf(category);
     }
 }

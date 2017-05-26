@@ -1,11 +1,16 @@
 package android.hochschule.com.categorizer;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,13 +81,44 @@ public class MyAdapterClass extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ItemClass item = (ItemClass) getChild(groupPosition, childPosition);
+        final ItemClass item = (ItemClass) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.activity_child_item, null);
         }
 
         TextView childHeader = (TextView) convertView.findViewById(R.id.childItem);
+        ImageView delete = (ImageView) convertView.findViewById(R.id.delItem);
+
+        final int grpID = groupPosition;
+        final int childID = childPosition;
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog alert = new AlertDialog.Builder(context).create();
+                alert.setTitle("Achtung!");
+                alert.setMessage("\"" + item.getName() + "\" wirklich löschen?");
+                alert.setCancelable(false);
+                alert.setButton(Dialog.BUTTON_POSITIVE, "Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<ItemClass> child = categories.get(grpID).getItems();
+                        child.remove(childID);
+                        notifyDataSetChanged();
+                        Toast.makeText(context, "\"" + item.getName() + "\" gelöscht", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.setButton(Dialog.BUTTON_NEGATIVE, "Nein", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
+            }
+        });
+
         childHeader.setText(item.getName().trim());
 
         return convertView;
