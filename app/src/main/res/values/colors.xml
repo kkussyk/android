@@ -3,6 +3,7 @@
     <color name="colorPrimary">#00bcd4</color>
     <color name="colorPrimaryDark">#00acc1</color>
     <color name="colorAccent">@color/colorPrimaryDark</color>
-    <color name="colorItemEditHeader">@color/colorPrimary</color>
+    <color name="colorItemHeaderView">@color/colorPrimary</color>
     <color name="colorItemContentView">#eeeeee</color>
+    <color name="colorItemTitleEditMode">#ffffff</color>
 </resources>

@@ -1,9 +1,11 @@
 package android.hochschule.com.categorizer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
 
         TextView header = (TextView) convertView.findViewById(R.id.grpItem);
         header.setText(category.getName().trim());
+        //ImageView openMenu = (ImageView)convertView.findViewById(R.id.grpDots);
 
         return convertView;
     }

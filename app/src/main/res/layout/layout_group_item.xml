@@ -7,10 +7,24 @@
 
     <TextView
         android:id="@+id/grpItem"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
         android:paddingTop="5dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteY="0dp"
+        app:layout_constraintRight_toLeftOf="@+id/grpDots"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/grpDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_more_vert_black_24dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

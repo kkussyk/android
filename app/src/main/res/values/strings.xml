@@ -3,4 +3,6 @@
     <string name="btn_yes">Ja</string>
     <string name="btn_no">Nein</string>
     <string name="dialog_title_delete">Löschen</string>
+    <string name="dialog_title_empty">Kein Titel</string>
+    <string name="btn_ok">Ok</string>
 </resources>

@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private LinkedHashMap<String, CategoryClass> subjects = new LinkedHashMap<>();
     private ArrayList<CategoryClass> categories = new ArrayList<>();
     private MyAdapterClass listAdapter;
+    private int currentGrpPos;
+    private int currentChildPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                currentGrpPos=groupPosition;
+                currentChildPos=childPosition;
                 CategoryClass category = categories.get(groupPosition);
                 ItemClass item = category.getItems().get(childPosition);
                 Intent intent = new Intent(MainActivity.this, ItemEditActivity.class);
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                long pos = expandableListView.getExpandableListPosition(position);
+                final long pos = expandableListView.getExpandableListPosition(position);
                 int itemType = ExpandableListView.getPackedPositionType(pos);
                 final int groupPosition = ExpandableListView.getPackedPositionGroup(pos);
                 CategoryClass category = categories.get(groupPosition);
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     ItemClass item = data.getParcelableExtra("result_item");
-                    //hier noch das geänderte Item permanent speichern
+                    categories.get(currentGrpPos).getItems().set(currentChildPos,item);
                     listAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, "\""+item.getName()+"\" erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
                 }

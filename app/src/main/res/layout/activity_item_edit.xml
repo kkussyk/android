@@ -21,7 +21,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
-        android:background="@color/colorItemEditHeader"
+        android:background="@color/colorItemHeaderView"
         app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline
@@ -123,6 +123,7 @@
         android:gravity="left|bottom"
         android:text="TextView"
         android:textStyle="bold"
+        android:textColor="@color/colorItemTitleEditMode"
         app:layout_constraintBottom_toBottomOf="@+id/headerItemEdit"
         app:layout_constraintLeft_toLeftOf="@+id/headerItemEdit"
         app:layout_constraintRight_toLeftOf="@+id/guideline6"
