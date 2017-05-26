@@ -13,19 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-/**
- * Created by Thomas on 25.05.2017.
- */
 
-public class MyAdapterClass extends BaseExpandableListAdapter {
+class MyAdapterClass extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<CategoryClass> categories;
 
-    public MyAdapterClass(Context context, ArrayList<CategoryClass> categories) {
+    MyAdapterClass(Context context, ArrayList<CategoryClass> categories) {
         this.context = context;
         this.categories = categories;
     }
@@ -70,7 +65,7 @@ public class MyAdapterClass extends BaseExpandableListAdapter {
         CategoryClass category = (CategoryClass) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.activity_group_item, null);
+            convertView = layoutInflater.inflate(R.layout.layout_group_item, null);
         }
 
         TextView header = (TextView) convertView.findViewById(R.id.grpItem);
@@ -84,11 +79,12 @@ public class MyAdapterClass extends BaseExpandableListAdapter {
         final ItemClass item = (ItemClass) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.activity_child_item, null);
+            convertView = layoutInflater.inflate(R.layout.layout_child_item, null);
         }
 
         TextView childHeader = (TextView) convertView.findViewById(R.id.childItem);
         ImageView delete = (ImageView) convertView.findViewById(R.id.delItem);
+        ImageView edit = (ImageView) convertView.findViewById(R.id.editItem);
 
         final int grpID = groupPosition;
         final int childID = childPosition;
@@ -97,10 +93,10 @@ public class MyAdapterClass extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 final AlertDialog alert = new AlertDialog.Builder(context).create();
-                alert.setTitle("Achtung!");
+                alert.setTitle(context.getResources().getString(R.string.dialog_title_caution));
                 alert.setMessage("\"" + item.getName() + "\" wirklich löschen?");
                 alert.setCancelable(false);
-                alert.setButton(Dialog.BUTTON_POSITIVE, "Ja", new DialogInterface.OnClickListener() {
+                alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ArrayList<ItemClass> child = categories.get(grpID).getItems();
@@ -109,13 +105,20 @@ public class MyAdapterClass extends BaseExpandableListAdapter {
                         Toast.makeText(context, "\"" + item.getName() + "\" gelöscht", Toast.LENGTH_SHORT).show();
                     }
                 });
-                alert.setButton(Dialog.BUTTON_NEGATIVE, "Nein", new DialogInterface.OnClickListener() {
+                alert.setButton(Dialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.btn_no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
                 alert.show();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "\"" + item.getName() + "\" bearbeiten", Toast.LENGTH_SHORT).show();
             }
         });
 

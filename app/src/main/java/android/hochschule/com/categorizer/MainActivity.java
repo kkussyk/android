@@ -1,9 +1,9 @@
 package android.hochschule.com.categorizer;
 
-import android.content.ClipData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -12,17 +12,19 @@ import java.util.LinkedHashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinkedHashMap<String, CategoryClass> subjects = new LinkedHashMap<String, CategoryClass>();
-    private ArrayList<CategoryClass> categories = new ArrayList<CategoryClass>();
+    private LinkedHashMap<String, CategoryClass> subjects = new LinkedHashMap<>();
+    private ArrayList<CategoryClass> categories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initExpandableList();
+    }
 
-        //starting expandable list
+    private void initExpandableList() {
         loadData();
-        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expList);
+        final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expList);
         MyAdapterClass listAdapter = new MyAdapterClass(MainActivity.this, categories);
         expandableListView.setAdapter(listAdapter);
 
@@ -47,8 +49,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //end of expandable list
 
+        expandableListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                long pos = expandableListView.getExpandableListPosition(position);
+                int itemType = ExpandableListView.getPackedPositionType(pos);
+                int groupPosition = ExpandableListView.getPackedPositionGroup(pos);
+                CategoryClass category = categories.get(groupPosition);
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    int childPosition = ExpandableListView.getPackedPositionChild(pos);
+                    ItemClass item = category.getItems().get(childPosition);
+                    Toast.makeText(getBaseContext(), "Lange gedrückt auf Item: " + item.getName(), Toast.LENGTH_SHORT).show();
+                } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+
+                    Toast.makeText(getBaseContext(), "Lange gedrückt auf Gruppe: " + category.getName(), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 
     private void loadData() {
