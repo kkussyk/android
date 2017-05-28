@@ -10,44 +10,41 @@
         android:id="@+id/headerGroupEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/guideline5"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorItemHeaderView"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline4"
+        app:layout_constraintRight_toLeftOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline4"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.04"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline5"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9557292"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="367dp" />
+        tools:layout_editor_absoluteX="367dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/groupSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:clickable="true"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
@@ -57,25 +54,25 @@
         app:srcCompat="@drawable/ic_action_save" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline6"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.83"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="319dp" />
+        tools:layout_editor_absoluteX="319dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline7"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline8"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.34" />
 
@@ -99,32 +96,13 @@
     </View>
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline9"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.24657534"
-        tools:layout_editor_absoluteY="126dp"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <EditText
-        android:id="@+id/groupTitleEdit"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="left|bottom"
-        android:text="TextView"
-        android:textStyle="bold"
-        android:textColor="@color/colorItemTitleEditMode"
-        app:layout_constraintBottom_toBottomOf="@+id/headerGroupEdit"
-        app:layout_constraintLeft_toLeftOf="@+id/headerGroupEdit"
-        app:layout_constraintRight_toLeftOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/headerGroupEdit"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="126dp" />
 
     <TextView
         android:id="@+id/titleItemList"
@@ -132,8 +110,6 @@
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/txt_view_titleforitems"
@@ -156,5 +132,23 @@
         app:layout_constraintLeft_toLeftOf="@+id/groupWrapperView"
         app:layout_constraintRight_toRightOf="@+id/groupWrapperView"
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+    <EditText
+        android:id="@+id/groupTitleEdit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start|bottom"
+        android:maxLines="1"
+        android:text="TextView"
+        android:textColor="@color/colorItemTitleEditMode"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/headerGroupEdit"
+        app:layout_constraintLeft_toLeftOf="@+id/headerGroupEdit"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/headerGroupEdit" />
 
 </android.support.constraint.ConstraintLayout>

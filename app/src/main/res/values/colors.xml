@@ -6,4 +6,5 @@
     <color name="colorItemHeaderView">@color/colorPrimary</color>
     <color name="colorItemContentView">#eeeeee</color>
     <color name="colorItemTitleEditMode">#ffffff</color>
+    <color name="colorRipple">#d4d4d4</color>
 </resources>
