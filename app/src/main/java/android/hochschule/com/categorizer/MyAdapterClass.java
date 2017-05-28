@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.ContextMenu;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,8 +65,8 @@ class MyAdapterClass extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        CategoryClass category = (CategoryClass) getGroup(groupPosition);
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        final CategoryClass category = (CategoryClass) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.layout_group_item, null);
@@ -72,7 +74,53 @@ class MyAdapterClass extends BaseExpandableListAdapter {
 
         TextView header = (TextView) convertView.findViewById(R.id.grpItem);
         header.setText(category.getName().trim());
-        //ImageView openMenu = (ImageView)convertView.findViewById(R.id.grpDots);
+        ImageView openMenu = (ImageView) convertView.findViewById(R.id.grpDots);
+
+        openMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        switch (id) {
+                            case R.id.mnuEdit:
+                                ((MainActivity) context).setCurrentGrpPos(groupPosition);
+                                Intent intent = new Intent(context, CategoryEditActivity.class);
+                                intent.putExtra("category", category);
+                                ((MainActivity) context).startActivityForResult(intent, 1);
+                                return true;
+                            case R.id.mnuDelete:
+                                final AlertDialog alert = new AlertDialog.Builder(context).create();
+                                alert.setTitle(context.getResources().getString(R.string.dialog_title_delete));
+                                alert.setMessage(context.getResources().getString(R.string.dialog_msg_category) + " \"" + category.getName() + "\" " + context.getResources().getString(R.string.dialog_msg_realy_delete));
+                                alert.setCancelable(false);
+                                alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String categoryName = category.getName();
+                                        categories.remove(category);
+                                        notifyDataSetChanged();
+                                        Toast.makeText(context, "\"" + categoryName + "\" " + context.getResources().getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alert.setButton(Dialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.btn_no), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                                alert.show();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
 
         return convertView;
     }
@@ -96,7 +144,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 final AlertDialog alert = new AlertDialog.Builder(context).create();
                 alert.setTitle(context.getResources().getString(R.string.dialog_title_delete));
-                alert.setMessage("\"" + item.getName() + "\" wirklich löschen?");
+                alert.setMessage("\"" + item.getName() + "\" " + context.getResources().getString(R.string.dialog_msg_realy_delete));
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                     @Override
@@ -104,7 +152,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                         ArrayList<ItemClass> child = categories.get(grpID).getItems();
                         child.remove(childID);
                         notifyDataSetChanged();
-                        Toast.makeText(context, "\"" + item.getName() + "\" gelöscht", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "\"" + item.getName() + "\" " + context.getResources().getString(R.string.toast_deleted), Toast.LENGTH_SHORT).show();
                     }
                 });
                 alert.setButton(Dialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.btn_no), new DialogInterface.OnClickListener() {

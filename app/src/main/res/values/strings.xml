@@ -2,7 +2,18 @@
     <string name="app_name">Categorizer</string>
     <string name="btn_yes">Ja</string>
     <string name="btn_no">Nein</string>
+    <string name="btn_ok">Ok</string>
     <string name="dialog_title_delete">Löschen</string>
     <string name="dialog_title_empty">Kein Titel</string>
-    <string name="btn_ok">Ok</string>
+    <string name="dialog_title_authors">Autoren</string>
+    <string name="dialog_msg_realy_delete">wirklich löschen?</string>
+    <string name="dialog_msg_category">Kategorie</string>
+    <string name="dialog_msg_enter_title">Bitte einen Titel eingeben!</string>
+    <string name="toast_deleted">gelöscht</string>
+    <string name="toast_saved">erfolgreich gespeichert!</string>
+    <string name="mnu_delete">Löschen</string>
+    <string name="mnu_edit">Bearbeiten</string>
+    <string name="mnu_settings">Einstellungen</string>
+    <string name="mnu_authors">Autoren</string>
+    <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
 </resources>

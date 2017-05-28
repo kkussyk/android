@@ -9,9 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class ItemEditActivity extends AppCompatActivity {
 
@@ -31,10 +28,10 @@ public class ItemEditActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemEditTitle.getText().toString().equals("")){
+                if (itemEditTitle.getText().toString().equals("")) {
                     final AlertDialog alert = new AlertDialog.Builder(ItemEditActivity.this).create();
                     alert.setTitle(ItemEditActivity.this.getResources().getString(R.string.dialog_title_empty));
-                    alert.setMessage("Bitte einen Titel eingeben!");
+                    alert.setMessage(ItemEditActivity.this.getResources().getString(R.string.dialog_msg_enter_title));
                     alert.setCancelable(false);
                     alert.setButton(Dialog.BUTTON_POSITIVE, ItemEditActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                         @Override
@@ -43,9 +40,7 @@ public class ItemEditActivity extends AppCompatActivity {
                         }
                     });
                     alert.show();
-                    return;
-                }
-                else {
+                } else {
                     item.setName(itemEditTitle.getText().toString());
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result_item", item);

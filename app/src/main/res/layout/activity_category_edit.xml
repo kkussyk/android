@@ -7,7 +7,7 @@
     tools:context="android.hochschule.com.categorizer.ItemEditActivity">
 
     <View
-        android:id="@+id/headerItemEdit"
+        android:id="@+id/headerGroupEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"
@@ -43,14 +43,11 @@
         tools:layout_editor_absoluteX="367dp" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/itemSave"
+        android:id="@+id/groupSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginRight="8dp"
         android:clickable="true"
         app:fabSize="normal"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
@@ -73,21 +70,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline7"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.21"
-        tools:layout_editor_absoluteY="108dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline8"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.29"
-        tools:layout_editor_absoluteY="148dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintGuide_percent="0.34" />
 
     <View
-        android:id="@+id/itemContentView"
+        android:id="@+id/groupWrapperView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -101,8 +94,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline4"
         app:layout_constraintRight_toLeftOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="@+id/guideline9">
 
     </View>
 
@@ -111,10 +103,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline9"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24657534" />
+        app:layout_constraintGuide_percent="0.24657534"
+        tools:layout_editor_absoluteY="126dp"
+        tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/itemTitleEdit"
+        android:id="@+id/groupTitleEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -125,11 +119,42 @@
         android:text="TextView"
         android:textStyle="bold"
         android:textColor="@color/colorItemTitleEditMode"
-        app:layout_constraintBottom_toBottomOf="@+id/headerItemEdit"
-        app:layout_constraintLeft_toLeftOf="@+id/headerItemEdit"
+        app:layout_constraintBottom_toBottomOf="@+id/headerGroupEdit"
+        app:layout_constraintLeft_toLeftOf="@+id/headerGroupEdit"
         app:layout_constraintRight_toLeftOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/headerItemEdit"
+        app:layout_constraintTop_toTopOf="@+id/headerGroupEdit"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/titleItemList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/txt_view_titleforitems"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@id/groupWrapperView"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline9"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/groupContentView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/groupWrapperView"
+        app:layout_constraintLeft_toLeftOf="@+id/groupWrapperView"
+        app:layout_constraintRight_toRightOf="@+id/groupWrapperView"
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
 </android.support.constraint.ConstraintLayout>
