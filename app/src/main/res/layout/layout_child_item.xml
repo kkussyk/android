@@ -14,6 +14,7 @@
         android:paddingBottom="5dp"
         android:paddingStart="?android:expandableListPreferredChildPaddingLeft"
         android:paddingTop="5dp"
+        android:textSize="@dimen/txt_size_child_listtitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/delItem"
         tools:layout_editor_absoluteY="0dp" />

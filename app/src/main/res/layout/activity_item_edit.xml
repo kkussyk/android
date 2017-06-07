@@ -122,16 +122,36 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:gravity="start|bottom"
-        android:inputType="text"
+        android:inputType="text|textNoSuggestions"
         android:maxLines="1"
         android:text="TextView"
         android:textColor="@color/colorItemTitleEditMode"
         android:textStyle="bold"
+        android:textSize="@dimen/txt_size_child_title"
         app:layout_constraintBottom_toBottomOf="@+id/headerItemEdit"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/headerItemEdit"
         app:layout_constraintRight_toLeftOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/headerItemEdit"
         app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/itemDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:textSize="@dimen/txt_size_child_desc"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/itemContentView"
+        app:layout_constraintLeft_toLeftOf="@+id/itemContentView"
+        app:layout_constraintRight_toRightOf="@+id/itemContentView"
+        app:layout_constraintTop_toTopOf="@+id/itemContentView" />
 
 </android.support.constraint.ConstraintLayout>

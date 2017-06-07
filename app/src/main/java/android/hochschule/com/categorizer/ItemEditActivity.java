@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,6 +15,7 @@ public class ItemEditActivity extends AppCompatActivity {
 
     private ItemClass item;
     private EditText itemEditTitle;
+    private EditText itemDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,9 @@ public class ItemEditActivity extends AppCompatActivity {
         item = getIntent().getParcelableExtra("item");
         itemEditTitle = (EditText) findViewById(R.id.itemTitleEdit);
         itemEditTitle.setText(item.getName());
+        itemEditTitle.setFilters(new InputFilter[] {new InputFilter.LengthFilter(20)});
+        itemDescription = (EditText) findViewById(R.id.itemDescription);
+        itemDescription.setText(item.getDescription());
 
         FloatingActionButton btnSave = (FloatingActionButton) findViewById(R.id.itemSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +47,7 @@ public class ItemEditActivity extends AppCompatActivity {
                     alert.show();
                 } else {
                     item.setName(itemEditTitle.getText().toString());
+                    item.setDescription(itemDescription.getText().toString());
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result_item", item);
                     setResult(RESULT_OK, returnIntent);

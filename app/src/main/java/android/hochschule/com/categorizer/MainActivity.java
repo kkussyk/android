@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_new_category));
                 final EditText input = new EditText(MainActivity.this);
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
                 alert.setView(input);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_create), new DialogInterface.OnClickListener() {
@@ -121,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_new_item));
                 final EditText input = new EditText(MainActivity.this);
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
                 alert.setView(input);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_create), new DialogInterface.OnClickListener() {
@@ -321,9 +327,14 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     ItemClass item = data.getParcelableExtra("result_item");
-                    categories.get(currentGrpPos).getItems().set(currentChildPos, item);
+                    if (currentChildPos == -1) {
+                        categories.get(currentGrpPos).getItems().add(item);
+                        Toast.makeText(MainActivity.this, "\"" + item.getName() + "\" in " + MainActivity.this.getResources().getString(R.string.dialog_msg_category) + " \"" + categories.get(currentGrpPos).getName() + "\" " + MainActivity.this.getResources().getString(R.string.toast_created), Toast.LENGTH_SHORT).show();
+                    } else {
+                        categories.get(currentGrpPos).getItems().set(currentChildPos, item);
+                        Toast.makeText(MainActivity.this, "\"" + item.getName() + "\" " + MainActivity.this.getResources().getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
+                    }
                     listAdapter.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "\"" + item.getName() + "\" " + MainActivity.this.getResources().getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (requestCode == 1) {
@@ -340,5 +351,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCurrentGrpPos(int currentGrpPos) {
         this.currentGrpPos = currentGrpPos;
+    }
+    public void setCurrentChildPos(int currentChildPos) {
+        this.currentChildPos = currentChildPos;
     }
 }

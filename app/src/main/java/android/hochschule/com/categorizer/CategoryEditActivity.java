@@ -28,6 +28,8 @@ public class CategoryEditActivity extends AppCompatActivity {
         category = getIntent().getParcelableExtra("category");
         categoryEditTitle = (EditText) findViewById(R.id.groupTitleEdit);
         categoryEditTitle.setText(category.getName());
+        categoryEditTitle.setFilters(new InputFilter[] {new InputFilter.LengthFilter(20)});
+
         ArrayList<ItemClass> items = category.getItems();
         ArrayList<String> itemNames = new ArrayList<>();
         for (ItemClass item : items) {

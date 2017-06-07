@@ -114,6 +114,13 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                                 });
                                 alert.show();
                                 return true;
+                            case R.id.mnuAdd:
+                                ((MainActivity) context).setCurrentGrpPos(groupPosition);
+                                ((MainActivity) context).setCurrentChildPos(-1);
+                                Intent intentItem = new Intent(context, ItemEditActivity.class);
+                                intentItem.putExtra("item", new ItemClass(""));
+                                ((MainActivity) context).startActivityForResult(intentItem, 0);
+                                return true;
                         }
                         return false;
                     }

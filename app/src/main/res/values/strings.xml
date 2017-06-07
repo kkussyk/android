@@ -21,6 +21,7 @@
     <string name="toast_saved">erfolgreich gespeichert!</string>
     <string name="mnu_delete">Löschen</string>
     <string name="mnu_edit">Bearbeiten</string>
+    <string name="mnu_add">Hinzufügen</string>
     <string name="mnu_settings">Einstellungen</string>
     <string name="mnu_authors">Autoren</string>
     <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
