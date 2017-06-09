@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mnuAuthors:
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_authors));
-                alert.setMessage("Kevin Kussyk\nThomas Schrul");
+                alert.setMessage("Kevin Kussyk\nThomas Fahrenholz (32460)");
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_NEUTRAL, MainActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                     @Override
