@@ -11,6 +11,9 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * Activity dient der Bearbeitung von Items
+ */
 public class ItemEditActivity extends AppCompatActivity {
 
     private ItemClass item;
@@ -22,21 +25,25 @@ public class ItemEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_edit);
 
+        //aktuelles Item holen
         item = getIntent().getParcelableExtra("item");
         itemEditTitle = (EditText) findViewById(R.id.itemTitleEdit);
-        itemEditTitle.setText(item.getName());
-        itemEditTitle.setFilters(new InputFilter[] {new InputFilter.LengthFilter(20)});
+        itemEditTitle.setText(item.getName());  //aktuellen Item Namen setzen
+        itemEditTitle.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)}); //Filter für den Namen: Max. 20 Zeichen erlaubt
         itemDescription = (EditText) findViewById(R.id.itemDescription);
-        itemDescription.setText(item.getDescription());
+        itemDescription.setText(item.getDescription()); //Item Beschreibung setzen
 
+        //Button zum Speichern
         FloatingActionButton btnSave = (FloatingActionButton) findViewById(R.id.itemSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemEditTitle.getText().toString().equals("")) {
+                //Titel darf nicht leer sein oder nur aus Leerzeichen bestehen -> Alert Dialog
+                if (itemEditTitle.getText().toString().trim().equals("")) {
                     final AlertDialog alert = new AlertDialog.Builder(ItemEditActivity.this).create();
                     alert.setTitle(ItemEditActivity.this.getResources().getString(R.string.dialog_title_empty));
                     alert.setMessage(ItemEditActivity.this.getResources().getString(R.string.dialog_msg_enter_title));
+                    alert.setIcon(R.drawable.ic_dialog_warning);
                     alert.setCancelable(false);
                     alert.setButton(Dialog.BUTTON_POSITIVE, ItemEditActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                         @Override
@@ -46,7 +53,7 @@ public class ItemEditActivity extends AppCompatActivity {
                     });
                     alert.show();
                 } else {
-                    item.setName(itemEditTitle.getText().toString());
+                    item.setName(itemEditTitle.getText().toString().trim());
                     item.setDescription(itemDescription.getText().toString());
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result_item", item);

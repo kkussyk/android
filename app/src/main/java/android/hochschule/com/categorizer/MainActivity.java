@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -22,42 +23,125 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import static android.hochschule.com.categorizer.DBhelperClass.COL_DESC_ITM;
+import static android.hochschule.com.categorizer.DBhelperClass.COL_ID_GRP;
+import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_GRP;
+import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_ITM;
+
 public class MainActivity extends AppCompatActivity {
 
+    //HashMap zur Überprüfung vorhandener Kategorien
     private LinkedHashMap<String, CategoryClass> subjects = new LinkedHashMap<>();
+    //Alle Kategorien
     private ArrayList<CategoryClass> categories = new ArrayList<>();
-    private MyAdapterClass listAdapter;
+    //Eigener Expandable List View Adapter
+    private MyListAdapterClass listAdapter;
+    //Aktuelle Group Position notwendig für einige Funktionen
     private int currentGrpPos;
+    //Aktuelle Child Position notwendig für einige Funktionen
     private int currentChildPos;
+    //Instanz des SQL Handlers
+    private SQLHandlerClass sqlHandlerClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //zu Beginn alles initialisieren
+        initDatabase();
         initFloatingActionButton();
         initExpandableList();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Wird Activity in den Stopp Modus gesetzt, werden Daten in Datenbank gespeichert
+        saveDatabase();
+    }
+
+    /**
+     * Datenbank initialisieren, Daten laden und Listen Adapter setzen
+     */
+    private void initDatabase() {
+        sqlHandlerClass = new SQLHandlerClass(MainActivity.this);
+        listAdapter = new MyListAdapterClass(MainActivity.this, categories);
+        loadDatabase();
+    }
+
+    /**
+     * Daten laden
+     */
+    private void loadDatabase() {
+        Cursor cursorCategories = sqlHandlerClass.getAllCategories();
+        Cursor cursorItems;
+        if (cursorCategories.moveToFirst()) {
+            //Alle Kategorien laden
+            while (!cursorCategories.isAfterLast()) {
+                String catName = cursorCategories.getString(cursorCategories.getColumnIndex(COL_NAME_GRP));
+                long grpID = cursorCategories.getLong(cursorCategories.getColumnIndex(COL_ID_GRP));
+                CategoryClass cat = createGroupOnLoad(catName);
+                //Cursor für Items in Abhängigkeit der Kategorie erstellen
+                cursorItems = sqlHandlerClass.getAllItemsOfCategory(grpID);
+                if (cursorItems.moveToFirst()) {
+                    //Alle Items der aktuellen Kategorie laden
+                    while (!cursorItems.isAfterLast()) {
+                        String itemName = cursorItems.getString(cursorItems.getColumnIndex(COL_NAME_ITM));
+                        String itemDesc = cursorItems.getString(cursorItems.getColumnIndex(COL_DESC_ITM));
+                        createItemOnLoad(itemName, itemDesc, cat);
+                        cursorItems.moveToNext();
+                    }
+                }
+                cursorItems.close();
+                cursorCategories.moveToNext();
+            }
+            listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Datenbank speichern.
+     */
+    private void saveDatabase() {
+        //zunächst prüfen ob es notwendig ist Tabellen zu überschreiben
+        sqlHandlerClass.checkDatabase();
+        for (CategoryClass cat : categories) {
+            long grpID = sqlHandlerClass.insertCategory(cat.getName());
+            ArrayList<ItemClass> items = cat.getItems();
+            if (items != null) {
+                for (ItemClass item : items) {
+                    sqlHandlerClass.insertItem(item.getName(), item.getDescription(), grpID);
+                }
+            }
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //Menü in der Action Bar erstellen
         getMenuInflater().inflate(R.menu.menu_app_options, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //Menü ID des Action Bar Menüs merken
         int id = item.getItemId();
 
         switch (id) {
+            //Einstellungen aufrufen
             case R.id.mnuSettings:
                 //Toast ersetzen durch Einstellungen Activity Aufruf
                 Toast.makeText(MainActivity.this, "Einstellungen gedrückt!", Toast.LENGTH_SHORT).show();
                 return true;
+            //App Autoren anzeigen
             case R.id.mnuAuthors:
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_authors));
                 alert.setMessage("Kevin Kussyk\nThomas Fahrenholz (32460)");
+                alert.setIcon(R.drawable.ic_dialog_info);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_NEUTRAL, MainActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -68,34 +152,41 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Floating Action Menu erstellen und Listener setzen
+     */
     private void initFloatingActionButton() {
+        //Menü
         final FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.addAction);
+        //Button für Kategorie hinzufügen
         final FloatingActionButton fabAddCat = (FloatingActionButton) findViewById(R.id.addCategory);
-        FloatingActionButton fabAddItem = (FloatingActionButton) findViewById(R.id.addItem);
+        ////Button für Item hinzufügen
+        final FloatingActionButton fabAddItem = (FloatingActionButton) findViewById(R.id.addItem);
 
         fabAddCat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                famMenu.close(true);
+                famMenu.close(true); //Menü schließen falls Button gedrückt wurde
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_new_category));
-                final EditText input = new EditText(MainActivity.this);
-                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
+                final EditText input = new EditText(MainActivity.this); //Textfeld im Alert Dialog zur Kategorieerstellung
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});  //Filter für max. 20 Zeichen im Titel
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);    //Nur Text, keine Zeilenumbrüche
                 alert.setView(input);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_create), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!input.getText().toString().equals("")) {
-                            createGroup(input.getText().toString());
+                        //Prüfen ob Titel nicht leer oder nur Leerzeichen -> Alert Dialog
+                        if (!input.getText().toString().trim().equals("")) {
+                            createGroup(input.getText().toString().trim());
                         } else {
                             final AlertDialog alert2 = new AlertDialog.Builder(alert.getContext()).create();
                             alert2.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_empty));
                             alert2.setMessage(MainActivity.this.getResources().getString(R.string.dialog_msg_enter_title));
+                            alert2.setIcon(R.drawable.ic_dialog_warning);
                             alert2.setCancelable(false);
                             alert2.setButton(Dialog.BUTTON_NEGATIVE, MainActivity.this.getResources().getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
                                 @Override
@@ -114,25 +205,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 alert.show();
-
-
             }
         });
+
         fabAddItem.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                famMenu.close(true);
-
+                famMenu.close(true);    //Menü schließen falls Button gedrückt wurde
+                //Falls keine Kategorien vorhanden, kann auch kein Item erstellt werden -> Alert Dialog
+                if (categories.size() == 0) {
+                    final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+                    alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_no_categories));
+                    alert.setMessage(MainActivity.this.getResources().getString(R.string.dialog_msg_create_category));
+                    alert.setIcon(R.drawable.ic_dialog_error);
+                    alert.setButton(Dialog.BUTTON_NEUTRAL, MainActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    alert.show();
+                    return;
+                }
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                 alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_new_item));
-                final EditText input = new EditText(MainActivity.this);
-                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
+                final EditText input = new EditText(MainActivity.this); //Textfeld im Alert Dialog zur Itemerstellung
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});  //Filter für max. 20 Zeichen im Titel
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);    //Nur Text, keine Zeilenumbrüche
                 alert.setView(input);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_create), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!input.getText().toString().equals("")) {
+                        //Prüfen ob Titel nicht leer oder nur Leerzeichen -> Alert Dialog
+                        if (!input.getText().toString().trim().equals("")) {
+                            //Alert Dialog erstellen mit Liste vorhandener Kategorien zur Auswahl für Item
                             AlertDialog.Builder alertList = new AlertDialog.Builder(MainActivity.this);
                             alertList.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_choose_category));
                             alertList.setCancelable(false);
@@ -152,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
                             final AlertDialog alert2 = new AlertDialog.Builder(alert.getContext()).create();
                             alert2.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_empty));
                             alert2.setMessage(MainActivity.this.getResources().getString(R.string.dialog_msg_enter_title));
+                            alert2.setIcon(R.drawable.ic_dialog_warning);
                             alert2.setCancelable(false);
                             alert2.setButton(Dialog.BUTTON_NEGATIVE, MainActivity.this.getResources().getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
                                 @Override
@@ -174,12 +281,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Expandable List erstellen und Listener setzen.
+     */
     private void initExpandableList() {
-        loadData();
         final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expList);
-        listAdapter = new MyAdapterClass(MainActivity.this, categories);
         expandableListView.setAdapter(listAdapter);
 
+        //Ein Klick auf ein Item geht zur Item Bearbeitungsansicht
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -194,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Ein langer Klick führt zur Möglichkeit des Löschens von Items und Kategorien
         expandableListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -202,12 +312,14 @@ public class MainActivity extends AppCompatActivity {
                 final int groupPosition = ExpandableListView.getPackedPositionGroup(pos);
                 final CategoryClass category = categories.get(groupPosition);
 
+                //Prüfen ob es ein Item oder eine Kategorie ist
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                     final int childPosition = ExpandableListView.getPackedPositionChild(pos);
                     final String itemName = category.getItems().get(childPosition).getName();
                     final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                     alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_delete));
                     alert.setMessage("\"" + itemName + "\" " + MainActivity.this.getResources().getString(R.string.dialog_msg_realy_delete));
+                    alert.setIcon(R.drawable.ic_dialog_warning);
                     alert.setCancelable(false);
                     alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                         @Override
@@ -230,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
                     final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
                     alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_delete));
                     alert.setMessage(MainActivity.this.getResources().getString(R.string.dialog_msg_category) + " \"" + category.getName() + "\" " + MainActivity.this.getResources().getString(R.string.dialog_msg_realy_delete));
+                    alert.setIcon(R.drawable.ic_dialog_warning);
                     alert.setCancelable(false);
                     alert.setButton(Dialog.BUTTON_POSITIVE, MainActivity.this.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                         @Override
@@ -253,41 +366,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadData() {
-        addSubject("Filme", "Harry Potter 1");
-        addSubject("Filme", "Fluch der Karibik 5");
-        addSubject("Filme", "Terminator 1");
-        addSubject("Filme", "Dead Pool");
-        addSubject("Filme", "Der Hobbit");
-        addSubject("Filme", "Dracula");
-        addSubject("Filme", "Terminator 2");
-        addSubject("Filme", "Dead Pool 2");
-        addSubject("Filme", "Der Hobbit - Die Schlacht der fünf Heere");
-        addSubject("Filme", "Purpurne Flüsse");
-        addSubject("Suppenrezepte", "Pasul");
-        addSubject("Suppenrezepte", "Lasagne");
-        addSubject("Suppenrezepte", "Nudelauflauf");
-        addSubject("Suppenrezepte", "Hamburger");
-        addSubject("Nicht vergessen", "Schulden");
-        addSubject("Nicht vergessen", "Verliehen");
-    }
-
-    private void addSubject(String grpHeader, String itemName) {
-        CategoryClass category = subjects.get(grpHeader);
-        if (category == null) {
-            category = new CategoryClass();
-            category.setName(grpHeader);
-            subjects.put(grpHeader, category);
-            categories.add(category);
-        }
-        ArrayList<ItemClass> items = category.getItems();
-        ItemClass item = new ItemClass(itemName);
-        items.add(item);
-        category.setItems(items);
-    }
-
+    /**
+     * Neue Kategorie erstellen.
+     */
     private void createGroup(String grpHeader) {
         CategoryClass category = subjects.get(grpHeader);
+        //Falls Gruppe noch nicht existiert wird sie erstellt, sonst -> Alert Dialog
         if (category == null) {
             category = new CategoryClass();
             category.setName(grpHeader);
@@ -299,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
             alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_duplicate));
             alert.setMessage(MainActivity.this.getResources().getString(R.string.dialog_msg_category) + " \"" + grpHeader + "\" " + MainActivity.this.getResources().getString(R.string.dialog_msg_already_exists));
+            alert.setIcon(R.drawable.ic_dialog_error);
             alert.setCancelable(false);
             alert.setButton(Dialog.BUTTON_NEGATIVE, MainActivity.this.getResources().getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
                 @Override
@@ -310,8 +395,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Item erstellen.
+     */
     private void createItem(String itemName, String grpHeader, int grpPosition) {
         ArrayList<ItemClass> items = categories.get(grpPosition).getItems();
+        //Falls Kategorie noch keine Items besitzt wird zunächst eine Liste erstellt.
         if (items == null) {
             items = new ArrayList<>();
         }
@@ -321,8 +410,34 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "\"" + itemName + "\" in " + MainActivity.this.getResources().getString(R.string.dialog_msg_category) + " \"" + grpHeader + "\" " + MainActivity.this.getResources().getString(R.string.toast_created), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Kategorie innerhalb der Prozedur des Ladens der Datenbank erstellen.
+     */
+    private CategoryClass createGroupOnLoad(String grpHeader) {
+        CategoryClass category = new CategoryClass();
+        category.setName(grpHeader);
+        subjects.put(grpHeader, category);
+        categories.add(category);
+        return category;
+    }
+
+    /**
+     * Item innerhalb der Prozedur des Ladens der Datenbank erstellen.
+     */
+    private void createItemOnLoad(String itemName, String itemDesc, CategoryClass categoryClass) {
+        ArrayList<ItemClass> items = categoryClass.getItems();
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        ItemClass item = new ItemClass(itemName);
+        item.setDescription(itemDesc);
+        items.add(item);
+        categoryClass.setItems(items);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Notwendig für das Empfangen der Ergebnisse der veränderten Daten
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
@@ -352,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
     public void setCurrentGrpPos(int currentGrpPos) {
         this.currentGrpPos = currentGrpPos;
     }
+
     public void setCurrentChildPos(int currentChildPos) {
         this.currentChildPos = currentChildPos;
     }

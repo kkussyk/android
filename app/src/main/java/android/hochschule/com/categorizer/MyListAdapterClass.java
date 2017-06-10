@@ -1,6 +1,5 @@
 package android.hochschule.com.categorizer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,13 +17,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
-class MyAdapterClass extends BaseExpandableListAdapter {
+/**
+ * Klasse dient als Adapter für die Expandable List View.
+ * Neben der Darstellung der Group und Child Elementen sind diverse Funktionen implementiert.
+ */
+class MyListAdapterClass extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<CategoryClass> categories;
 
-    MyAdapterClass(Context context, ArrayList<CategoryClass> categories) {
+    MyListAdapterClass(Context context, ArrayList<CategoryClass> categories) {
         this.context = context;
         this.categories = categories;
     }
@@ -74,7 +76,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
 
         TextView header = (TextView) convertView.findViewById(R.id.grpItem);
         header.setText(category.getName().trim());
-        ImageView openMenu = (ImageView) convertView.findViewById(R.id.grpDots);
+        ImageView openMenu = (ImageView) convertView.findViewById(R.id.grpDots);    //3 Punkte Bild als klickbares Menü
 
         openMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +88,19 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         switch (id) {
+                            //Kategorie editieren
                             case R.id.mnuEdit:
                                 ((MainActivity) context).setCurrentGrpPos(groupPosition);
                                 Intent intent = new Intent(context, CategoryEditActivity.class);
                                 intent.putExtra("category", category);
                                 ((MainActivity) context).startActivityForResult(intent, 1);
                                 return true;
+                            //Kategorie löschen
                             case R.id.mnuDelete:
                                 final AlertDialog alert = new AlertDialog.Builder(context).create();
                                 alert.setTitle(context.getResources().getString(R.string.dialog_title_delete));
                                 alert.setMessage(context.getResources().getString(R.string.dialog_msg_category) + " \"" + category.getName() + "\" " + context.getResources().getString(R.string.dialog_msg_realy_delete));
+                                alert.setIcon(R.drawable.ic_dialog_warning);
                                 alert.setCancelable(false);
                                 alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                                     @Override
@@ -114,6 +119,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                                 });
                                 alert.show();
                                 return true;
+                            //Item dieser Kategorie hinzufügen
                             case R.id.mnuAdd:
                                 ((MainActivity) context).setCurrentGrpPos(groupPosition);
                                 ((MainActivity) context).setCurrentChildPos(-1);
@@ -141,7 +147,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
         }
 
         TextView childHeader = (TextView) convertView.findViewById(R.id.childItem);
-        ImageView delete = (ImageView) convertView.findViewById(R.id.delItem);
+        ImageView delete = (ImageView) convertView.findViewById(R.id.delItem);  //Mültonnen Bild als klickbare Item-Löschfunktion
 
         final int grpID = groupPosition;
         final int childID = childPosition;
@@ -152,6 +158,7 @@ class MyAdapterClass extends BaseExpandableListAdapter {
                 final AlertDialog alert = new AlertDialog.Builder(context).create();
                 alert.setTitle(context.getResources().getString(R.string.dialog_title_delete));
                 alert.setMessage("\"" + item.getName() + "\" " + context.getResources().getString(R.string.dialog_msg_realy_delete));
+                alert.setIcon(R.drawable.ic_dialog_warning);
                 alert.setCancelable(false);
                 alert.setButton(Dialog.BUTTON_POSITIVE, context.getResources().getString(R.string.btn_yes), new DialogInterface.OnClickListener() {
                     @Override
