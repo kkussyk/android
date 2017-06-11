@@ -29,4 +29,5 @@
     <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
     <string name="mnu_add_category">Neue Kategorie</string>
     <string name="mnu_add_item">Neues Item</string>
+    <string name="authors">Kevin Kussyk\nThomas Fahrenholz (32460)</string>
 </resources>
