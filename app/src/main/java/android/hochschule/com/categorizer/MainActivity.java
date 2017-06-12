@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         initFloatingActionButton();
         initExpandableList();
     }
@@ -52,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.mnuSettings:
                 //Toast ersetzen durch Einstellungen Activity Aufruf
-                Toast.makeText(MainActivity.this, "Einstellungen gedrückt!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Einstellungen gedrückt!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, Settings.class));
                 return true;
             case R.id.mnuAuthors:
                 final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
@@ -346,6 +350,17 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "\"" + category.getName() + "\" " + MainActivity.this.getResources().getString(R.string.toast_saved), Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+    }
+
+    protected void onResume(){
+        super.onResume();
+        ConstraintLayout main = (ConstraintLayout) findViewById(R.id.main);
+
+        if(Settings.nightmode){
+            main.setBackgroundColor(Color.RED);
+        }else{
+            main.setBackgroundColor(Color.GREEN);
         }
     }
 
