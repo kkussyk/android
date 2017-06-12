@@ -5,8 +5,12 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+/**
+ * Klasse dient der Erstellung der Kategorien.
+ */
 class CategoryClass implements Parcelable {
 
+    //Eine Kategorie hat einen Namen und eine Liste von Items
     private String name;
     private ArrayList<ItemClass> items = new ArrayList<>();
 
@@ -28,6 +32,9 @@ class CategoryClass implements Parcelable {
     void setItems(ArrayList<ItemClass> items) {
         this.items = items;
     }
+
+    //###############################################################
+    //notwendig für Übertragung von Objekten via Parcel
 
     private CategoryClass(Parcel In) {
         this.name = In.readString();

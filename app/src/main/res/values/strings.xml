@@ -8,6 +8,8 @@
     <string name="dialog_title_duplicate">Duplikat</string>
     <string name="dialog_title_delete">Löschen</string>
     <string name="dialog_title_empty">Kein Titel</string>
+    <string name="dialog_title_no_categories">Keine Kategorien</string>
+    <string name="dialog_msg_create_category">Erstelle zunächst eine Kategorie!</string>
     <string name="dialog_title_authors">Autoren</string>
     <string name="dialog_msg_realy_delete">wirklich löschen?</string>
     <string name="dialog_msg_already_exists">existiert bereits!</string>
@@ -27,4 +29,5 @@
     <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
     <string name="mnu_add_category">Neue Kategorie</string>
     <string name="mnu_add_item">Neues Item</string>
+    <string name="authors">Kevin Kussyk\nThomas Fahrenholz (32460)</string>
 </resources>
