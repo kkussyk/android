@@ -135,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             //Einstellungen aufrufen
             case R.id.mnuSettings:
-                //Toast ersetzen durch Einstellungen Activity Aufruf
-                //Toast.makeText(MainActivity.this, "Einstellungen gedrückt!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, Settings.class));
                 return true;
             //App Autoren anzeigen
@@ -364,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     alert.show();
                 }
-                return true;
+                return true;    //true damit nicht danach noch danach der normale Click Listener aufgerufen wird
             }
         });
     }
@@ -467,13 +465,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onResume(){
+    @Override
+    protected void onResume() {
         super.onResume();
         ConstraintLayout main = (ConstraintLayout) findViewById(R.id.main);
 
-        if(Settings.nightmode){
+        if (Settings.nightmode) {
             main.setBackgroundColor(Color.RED);
-        }else{
+        } else {
             main.setBackgroundColor(Color.GREEN);
         }
     }
