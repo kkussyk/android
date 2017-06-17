@@ -3,7 +3,7 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_ok">OK</string>
-    <string name="btn_cancel">Cancel</string>
+    <string name="btn_cancel">Thomas Fahrenholz (32460)</string>
     <string name="btn_create">Create</string>
     <string name="dialog_title_duplicate">Duplicate</string>
     <string name="dialog_title_delete">Delete</string>
@@ -18,13 +18,18 @@
     <string name="dialog_title_choose_category">Choose a category</string>
     <string name="toast_deleted">deleted</string>
     <string name="toast_created">created</string>
-    <string name="toast_saved">erfolgreich gespeichert!</string>
+    <string name="toast_saved">saved successfully!</string>
     <string name="mnu_delete">Delete</string>
     <string name="mnu_edit">Edit</string>
     <string name="mnu_add">Add</string>
     <string name="mnu_settings">Settings</string>
     <string name="mnu_authors">Authors</string>
-    <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
+    <string name="txt_view_titleforitems">Content in this category:</string>
     <string name="mnu_add_category">New category</string>
     <string name="mnu_add_item">New item</string>
+    <string name="dialog_title_no_categories">No categories</string>
+    <string name="settings_nightmode">Activate nightmode</string>
+    <string name="settings_lang">Change language</string>
+    <string name="authors">Kevin Kussyk (32603) Thomas Fahrenholz (32460)</string>
+    <string name="dialog_msg_create_category">First create a category!</string>
 </resources>

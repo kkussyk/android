@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.database.Cursor;
@@ -29,6 +30,7 @@ import static android.hochschule.com.categorizer.DBhelperClass.COL_DESC_ITM;
 import static android.hochschule.com.categorizer.DBhelperClass.COL_ID_GRP;
 import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_GRP;
 import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_ITM;
+import static java.lang.String.valueOf;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,15 +47,26 @@ public class MainActivity extends AppCompatActivity {
     //Instanz des SQL Handlers
     private SQLHandlerClass sqlHandlerClass;
 
+    public static final String PREFS_NAME = "MyPrefsFile";
+    public static SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
+        if(sharedPreferences.getBoolean("nightmode", false)){
+            MainActivity.this.setTheme(R.style.NightTheme);
+        }else{
+            MainActivity.this.setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_main);
 
         //zu Beginn alles initialisieren
         initDatabase();
         initFloatingActionButton();
         initExpandableList();
+
 
     }
 
@@ -141,18 +154,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             //App Autoren anzeigen
             case R.id.mnuAuthors:
-                final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
-                alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_authors));
-                alert.setMessage(MainActivity.this.getResources().getString(R.string.authors));
-                alert.setIcon(R.drawable.ic_dialog_info);
-                alert.setCancelable(false);
-                alert.setButton(Dialog.BUTTON_NEUTRAL, MainActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alert.show();
+//                final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+//                alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_authors));
+//                alert.setMessage(MainActivity.this.getResources().getString(R.string.authors));
+//                alert.setIcon(R.drawable.ic_dialog_info);
+//                alert.setCancelable(false);
+//                alert.setButton(Dialog.BUTTON_NEUTRAL, MainActivity.this.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//                alert.show();
+                startActivity(new Intent(this, Authors.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -467,16 +481,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onResume(){
-        super.onResume();
-        ConstraintLayout main = (ConstraintLayout) findViewById(R.id.main);
-
-        if(Settings.nightmode){
-            main.setBackgroundColor(Color.RED);
-        }else{
-            main.setBackgroundColor(Color.GREEN);
-        }
-    }
+//    protected void onResume(){
+//        super.onResume();
+//        ConstraintLayout main = (ConstraintLayout) findViewById(R.id.main);
+//        boolean test = false;
+//        if(test = sharedPreferences.getBoolean("nightmode", false)){
+//            //main.setBackgroundColor(Color.RED);
+//            MainActivity.this.setTheme(R.style.NightTheme);
+//            Toast.makeText(getApplicationContext(), valueOf(test), Toast.LENGTH_LONG).show();
+//        }else{
+//            //main.setBackgroundColor(Color.GREEN);
+//            Toast.makeText(getApplicationContext(), valueOf(test), Toast.LENGTH_LONG).show();
+//            MainActivity.this.setTheme(R.style.AppTheme);
+//        }
+//    }
 
     public void setCurrentGrpPos(int currentGrpPos) {
         this.currentGrpPos = currentGrpPos;

@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import static android.hochschule.com.categorizer.MainActivity.sharedPreferences;
+
 /**
  * Activity dient der Bearbeitung von Kategorien
  */
@@ -26,6 +28,13 @@ public class CategoryEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(sharedPreferences.getBoolean("nightmode", false)){
+            CategoryEditActivity.this.setTheme(R.style.NightTheme);
+        }else{
+            CategoryEditActivity.this.setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_category_edit);
 
         //aktuelle Kategorie holen

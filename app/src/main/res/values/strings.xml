@@ -29,5 +29,10 @@
     <string name="txt_view_titleforitems">Inhalte dieser Kategorie:</string>
     <string name="mnu_add_category">Neue Kategorie</string>
     <string name="mnu_add_item">Neues Item</string>
-    <string name="authors">Kevin Kussyk\nThomas Fahrenholz (32460)</string>
+    <string name="authors">Kevin Kussyk (32603)\nThomas Fahrenholz (32460)</string>
+    <string name="settings_nightmode">Nachtmodus aktivieren</string>
+    <string name="settings_lang">Spache ändern</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

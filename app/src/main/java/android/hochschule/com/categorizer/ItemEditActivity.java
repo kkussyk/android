@@ -11,6 +11,8 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
+import static android.hochschule.com.categorizer.MainActivity.sharedPreferences;
+
 /**
  * Activity dient der Bearbeitung von Items
  */
@@ -23,6 +25,13 @@ public class ItemEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(sharedPreferences.getBoolean("nightmode", false)){
+            ItemEditActivity.this.setTheme(R.style.NightTheme);
+        }else{
+            ItemEditActivity.this.setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_item_edit);
 
         //aktuelles Item holen

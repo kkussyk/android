@@ -24,9 +24,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Nachtmodus aktivieren"
-        android:textOff="Tagesmodus aktiv"
-        android:textOn="Nachtmodus aktiv"
+        android:text="@string/settings_nightmode"
         app:layout_constraintLeft_toLeftOf="@+id/guideline10"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +34,7 @@
         android:layout_width="191dp"
         android:layout_height="26dp"
         android:layout_marginTop="60dp"
-        android:text="Sprache ändern"
+        android:text="@string/settings_lang"
         app:layout_constraintTop_toBottomOf="@+id/switch1"
         tools:layout_editor_absoluteX="103dp" />
 </android.support.constraint.ConstraintLayout>

@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ItemEditActivity" />
         <activity android:name=".CategoryEditActivity" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".Authors"></activity>
     </application>
 
 </manifest>
