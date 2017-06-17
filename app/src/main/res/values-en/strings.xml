@@ -3,16 +3,16 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_ok">OK</string>
-    <string name="btn_cancel">Thomas Fahrenholz (32460)</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="btn_create">Create</string>
     <string name="dialog_title_duplicate">Duplicate</string>
     <string name="dialog_title_delete">Delete</string>
     <string name="dialog_title_empty">Empty title</string>
     <string name="dialog_title_authors">Authors</string>
-    <string name="dialog_msg_realy_delete">really delete it?</string>
+    <string name="dialog_msg_realy_delete">Delete?</string>
     <string name="dialog_msg_already_exists">already exists!</string>
     <string name="dialog_msg_category">Category</string>
-    <string name="dialog_msg_enter_title">Please enter a title</string>
+    <string name="dialog_msg_enter_title">Please enter a title!</string>
     <string name="dialog_title_new_category">New category</string>
     <string name="dialog_title_new_item">New item</string>
     <string name="dialog_title_choose_category">Choose a category</string>
@@ -31,5 +31,5 @@
     <string name="settings_nightmode">Activate nightmode</string>
     <string name="settings_lang">Change language</string>
     <string name="authors">Kevin Kussyk (32603) Thomas Fahrenholz (32460)</string>
-    <string name="dialog_msg_create_category">First create a category!</string>
+    <string name="dialog_msg_create_category">Create a category first!</string>
 </resources>

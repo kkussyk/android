@@ -148,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             //Einstellungen aufrufen
             case R.id.mnuSettings:
-                //Toast ersetzen durch Einstellungen Activity Aufruf
-                //Toast.makeText(MainActivity.this, "Einstellungen gedrückt!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, Settings.class));
                 return true;
             //App Autoren anzeigen
@@ -378,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     alert.show();
                 }
-                return true;
+                return true;    //true damit nicht danach noch danach der normale Click Listener aufgerufen wird
             }
         });
     }
@@ -480,21 +478,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-//    protected void onResume(){
-//        super.onResume();
-//        ConstraintLayout main = (ConstraintLayout) findViewById(R.id.main);
-//        boolean test = false;
-//        if(test = sharedPreferences.getBoolean("nightmode", false)){
-//            //main.setBackgroundColor(Color.RED);
-//            MainActivity.this.setTheme(R.style.NightTheme);
-//            Toast.makeText(getApplicationContext(), valueOf(test), Toast.LENGTH_LONG).show();
-//        }else{
-//            //main.setBackgroundColor(Color.GREEN);
-//            Toast.makeText(getApplicationContext(), valueOf(test), Toast.LENGTH_LONG).show();
-//            MainActivity.this.setTheme(R.style.AppTheme);
-//        }
-//    }
 
     public void setCurrentGrpPos(int currentGrpPos) {
         this.currentGrpPos = currentGrpPos;
