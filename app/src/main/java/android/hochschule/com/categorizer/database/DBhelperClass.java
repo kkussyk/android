@@ -1,4 +1,4 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,16 +7,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Klasse dient der Erstellung der SQLite Datenbank
  */
-class DBhelperClass extends SQLiteOpenHelper {
+public class DBhelperClass extends SQLiteOpenHelper {
 
     //Festlegung der Tabellen, Spalten und der Datenbank
     static final String TBL_GRP = "category";
-    static final String COL_ID_GRP = "_id";
-    static final String COL_NAME_GRP = "name";
+    public static final String COL_ID_GRP = "_id";
+    public static final String COL_NAME_GRP = "name";
     static final String TBL_ITM = "item";
     private static final String COL_ID_ITM = "_id";
-    static final String COL_NAME_ITM = "name";
-    static final String COL_DESC_ITM = "description";
+    public static final String COL_NAME_ITM = "name";
+    public static final String COL_DESC_ITM = "description";
     static final String COL_FID_ITM = "fid";    //Fremdschlüsselspalte um Item einer Kategorie zuzuordnen
 
     private static final String DB_NAME = "CATEGORZIZER.DB";

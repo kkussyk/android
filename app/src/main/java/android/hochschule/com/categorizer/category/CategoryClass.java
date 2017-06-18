@@ -1,5 +1,6 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.category;
 
+import android.hochschule.com.categorizer.item.ItemClass;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,28 +9,28 @@ import java.util.ArrayList;
 /**
  * Klasse dient der Erstellung der Kategorien.
  */
-class CategoryClass implements Parcelable {
+public class CategoryClass implements Parcelable {
 
     //Eine Kategorie hat einen Namen und eine Liste von Items
     private String name;
     private ArrayList<ItemClass> items = new ArrayList<>();
 
-    CategoryClass() {
+    public CategoryClass() {
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    ArrayList<ItemClass> getItems() {
+    public ArrayList<ItemClass> getItems() {
         return items;
     }
 
-    void setItems(ArrayList<ItemClass> items) {
+    public void setItems(ArrayList<ItemClass> items) {
         this.items = items;
     }
 

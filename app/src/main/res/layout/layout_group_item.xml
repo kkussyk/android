@@ -16,6 +16,7 @@
         android:paddingTop="5dp"
         android:textSize="@dimen/txt_size_group_listtitle"
         android:textStyle="bold"
+        android:textColor="@color/colorListCategory"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/grpDots"
         tools:layout_editor_absoluteY="0dp" />

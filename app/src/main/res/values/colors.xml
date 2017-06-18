@@ -5,11 +5,23 @@
     <color name="colorAccent">@color/colorPrimaryDark</color>
     <color name="colorItemHeaderView">@color/colorPrimary</color>
     <color name="colorItemContentView">#eeeeee</color>
-    <color name="colorItemTitleEditMode">#ffffff</color>
+    <color name="colorItemTitleEditMode">@color/white</color>
+    <color name="colorCategoryTitleEditMode">@color/white</color>
+    <color name="colorItemDescription">@color/black</color>
+    <color name="colorTextnormal">@color/black</color>
+    <color name="colorListCategory">@color/grey</color>
+    <color name="colorListItem">@color/grey</color>
+    <color name="colorListDivider">@color/grey</color>
     <color name="colorRipple">#d4d4d4</color>
+    <color name="colorCategorySubtitleEditMode">@color/grey</color>
+
+    <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="grey">#616161</color>
 
     <color name="colorPrimaryNight">#486b87</color>
     <color name="colorPrimaryDarkNight">#0d555e</color>
     <color name="colorAccentNight">#4d514f</color>
+    <color name="colorBackgroundNight">#bdbdbd</color>
+    <color name="colorItemHeaderViewNight">@color/colorPrimaryNight</color>
 </resources>

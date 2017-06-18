@@ -1,9 +1,10 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.item;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hochschule.com.categorizer.R;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
-import static android.hochschule.com.categorizer.MainActivity.sharedPreferences;
+import static android.hochschule.com.categorizer.main.MainActivity.sharedPreferences;
 
 /**
  * Activity dient der Bearbeitung von Items
@@ -26,13 +27,20 @@ public class ItemEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(sharedPreferences.getBoolean("nightmode", false)){
+        //App Theme anpassen
+        if (sharedPreferences.getBoolean("nightmode", false)) {
             ItemEditActivity.this.setTheme(R.style.NightTheme);
-        }else{
+        } else {
             ItemEditActivity.this.setTheme(R.style.AppTheme);
         }
 
         setContentView(R.layout.activity_item_edit);
+
+        //Farben ändern falls Nightmode
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            View headerView = findViewById(R.id.headerItemEdit);
+            headerView.setBackgroundColor(ItemEditActivity.this.getColor(R.color.colorRipple));
+        }
 
         //aktuelles Item holen
         item = getIntent().getParcelableExtra("item");

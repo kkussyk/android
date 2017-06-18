@@ -28,8 +28,11 @@
     <string name="mnu_add_category">New category</string>
     <string name="mnu_add_item">New item</string>
     <string name="dialog_title_no_categories">No categories</string>
-    <string name="settings_nightmode">Activate nightmode</string>
-    <string name="settings_lang">Change language</string>
-    <string name="authors">Kevin Kussyk (32603) Thomas Fahrenholz (32460)</string>
+    <string name="settings_nightmode">Nightmode</string>
+    <string name="settings_lang">Language (DE/EN)</string>
+    <string name="authors">Kevin Kussyk (32603)\nThomas Fahrenholz (32460)</string>
     <string name="dialog_msg_create_category">Create a category first!</string>
+    <string name="toast_switch_language">Language changed</string>
+    <string name="toast_switch_theme_light">Nightmode off</string>
+    <string name="toast_switch_theme_night">Nightmode on</string>
 </resources>

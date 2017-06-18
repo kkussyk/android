@@ -1,10 +1,16 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.expandableListAdapter;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hochschule.com.categorizer.R;
+import android.hochschule.com.categorizer.category.CategoryClass;
+import android.hochschule.com.categorizer.category.CategoryEditActivity;
+import android.hochschule.com.categorizer.item.ItemClass;
+import android.hochschule.com.categorizer.item.ItemEditActivity;
+import android.hochschule.com.categorizer.main.MainActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +27,12 @@ import java.util.ArrayList;
  * Klasse dient als Adapter für die Expandable List View.
  * Neben der Darstellung der Group und Child Elementen sind diverse Funktionen implementiert.
  */
-class MyListAdapterClass extends BaseExpandableListAdapter {
+public class MyListAdapterClass extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<CategoryClass> categories;
 
-    MyListAdapterClass(Context context, ArrayList<CategoryClass> categories) {
+    public MyListAdapterClass(Context context, ArrayList<CategoryClass> categories) {
         this.context = context;
         this.categories = categories;
     }

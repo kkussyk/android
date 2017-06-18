@@ -21,6 +21,9 @@
     <string name="toast_deleted">gelöscht</string>
     <string name="toast_created">erstellt</string>
     <string name="toast_saved">erfolgreich gespeichert!</string>
+    <string name="toast_switch_theme_night">Nachtmodus aktiviert</string>
+    <string name="toast_switch_theme_light">Nachtmodus deaktiviert</string>
+    <string name="toast_switch_language">Sprache geändert</string>
     <string name="mnu_delete">Löschen</string>
     <string name="mnu_edit">Bearbeiten</string>
     <string name="mnu_add">Hinzufügen</string>
@@ -30,9 +33,6 @@
     <string name="mnu_add_category">Neue Kategorie</string>
     <string name="mnu_add_item">Neues Item</string>
     <string name="authors">Kevin Kussyk (32603)\nThomas Fahrenholz (32460)</string>
-    <string name="settings_nightmode">Nachtmodus aktivieren</string>
-    <string name="settings_lang">Spache ändern</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_nightmode">Nachtmodus</string>
+    <string name="settings_lang">Spache (DE/EN)</string>
 </resources>

@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="android.hochschule.com.categorizer.MainActivity">
+    tools:context="android.hochschule.com.categorizer.main.MainActivity">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -52,6 +52,8 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        android:divider="@color/colorAccent"
+        android:dividerHeight="2px"
         />
 
     <com.github.clans.fab.FloatingActionMenu

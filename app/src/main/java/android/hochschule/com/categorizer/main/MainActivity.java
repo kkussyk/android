@@ -1,13 +1,21 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.main;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
+import android.graphics.drawable.ColorDrawable;
+import android.hochschule.com.categorizer.author.AuthorsActivity;
+import android.hochschule.com.categorizer.category.CategoryClass;
+import android.hochschule.com.categorizer.database.SQLHandlerClass;
 import android.database.Cursor;
+import android.hochschule.com.categorizer.expandableListAdapter.MyListAdapterClass;
+import android.hochschule.com.categorizer.item.ItemClass;
+import android.hochschule.com.categorizer.item.ItemEditActivity;
+import android.hochschule.com.categorizer.R;
+import android.hochschule.com.categorizer.setting.SettingsActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -26,12 +34,14 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import static android.hochschule.com.categorizer.DBhelperClass.COL_DESC_ITM;
-import static android.hochschule.com.categorizer.DBhelperClass.COL_ID_GRP;
-import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_GRP;
-import static android.hochschule.com.categorizer.DBhelperClass.COL_NAME_ITM;
-import static java.lang.String.valueOf;
+import static android.hochschule.com.categorizer.database.DBhelperClass.COL_DESC_ITM;
+import static android.hochschule.com.categorizer.database.DBhelperClass.COL_ID_GRP;
+import static android.hochschule.com.categorizer.database.DBhelperClass.COL_NAME_GRP;
+import static android.hochschule.com.categorizer.database.DBhelperClass.COL_NAME_ITM;
 
+/**
+ * Startet die Main Activity mit den Kategorien und Items.
+ */
 public class MainActivity extends AppCompatActivity {
 
     //HashMap zur Überprüfung vorhandener Kategorien
@@ -45,29 +55,30 @@ public class MainActivity extends AppCompatActivity {
     //Aktuelle Child Position notwendig für einige Funktionen
     private int currentChildPos;
     //Instanz des SQL Handlers
-    private SQLHandlerClass sqlHandlerClass;
-
+    public SQLHandlerClass sqlHandlerClass;
+    //Name der Einstellungsdatei
     public static final String PREFS_NAME = "MyPrefsFile";
+    //App Einstellungen
     public static SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //App Theme anpassen
         sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
-        if(sharedPreferences.getBoolean("nightmode", false)){
+        if (sharedPreferences.getBoolean("nightmode", false)) {
             MainActivity.this.setTheme(R.style.NightTheme);
-        }else{
+        } else {
             MainActivity.this.setTheme(R.style.AppTheme);
         }
+
         setContentView(R.layout.activity_main);
 
         //zu Beginn alles initialisieren
         initDatabase();
         initFloatingActionButton();
         initExpandableList();
-
-
     }
 
     @Override
@@ -148,10 +159,11 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             //Einstellungen aufrufen
             case R.id.mnuSettings:
-                startActivity(new Intent(this, Settings.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             //App Autoren anzeigen
             case R.id.mnuAuthors:
+
 //                final AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
 //                alert.setTitle(MainActivity.this.getResources().getString(R.string.dialog_title_authors));
 //                alert.setMessage(MainActivity.this.getResources().getString(R.string.authors));
@@ -164,7 +176,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 //                alert.show();
-                startActivity(new Intent(this, Authors.class));
+
+                startActivity(new Intent(this, AuthorsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -180,6 +193,16 @@ public class MainActivity extends AppCompatActivity {
         final FloatingActionButton fabAddCat = (FloatingActionButton) findViewById(R.id.addCategory);
         ////Button für Item hinzufügen
         final FloatingActionButton fabAddItem = (FloatingActionButton) findViewById(R.id.addItem);
+
+        //Farben an Nachtmodus anpassen falls erforderlich
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            famMenu.setMenuButtonColorNormal(R.color.colorAccentNight);
+            famMenu.setMenuButtonColorPressed(R.color.colorPrimaryNight);
+            fabAddCat.setColorNormal(R.color.colorAccentNight);
+            fabAddCat.setColorPressed(R.color.colorPrimaryNight);
+            fabAddItem.setColorNormal(R.color.colorAccentNight);
+            fabAddItem.setColorPressed(R.color.colorPrimaryNight);
+        }
 
         fabAddCat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -302,6 +325,12 @@ public class MainActivity extends AppCompatActivity {
     private void initExpandableList() {
         final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expList);
         expandableListView.setAdapter(listAdapter);
+
+        //Farben an Nachtmodus anpassen falls erforderlich
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            expandableListView.setDivider(new ColorDrawable(MainActivity.this.getColor(R.color.colorAccentNight)));
+            expandableListView.setDividerHeight(2);
+        }
 
         //Ein Klick auf ein Item geht zur Item Bearbeitungsansicht
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {

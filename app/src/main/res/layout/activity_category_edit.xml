@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="android.hochschule.com.categorizer.ItemEditActivity">
+    tools:context="android.hochschule.com.categorizer.item.ItemEditActivity">
 
     <View
         android:id="@+id/headerGroupEdit"
@@ -113,6 +113,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/txt_view_titleforitems"
+        android:textColor="@color/colorCategorySubtitleEditMode"
         android:textSize="@dimen/txt_size_child_listtitle"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintHorizontal_bias="0.0"
@@ -129,6 +130,8 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
+        android:divider="@color/colorListDivider"
+        android:dividerHeight="2px"
         app:layout_constraintBottom_toBottomOf="@+id/groupWrapperView"
         app:layout_constraintLeft_toLeftOf="@+id/groupWrapperView"
         app:layout_constraintRight_toRightOf="@+id/groupWrapperView"
@@ -145,7 +148,7 @@
         android:gravity="start|bottom"
         android:inputType="text|textNoSuggestions"
         android:maxLines="1"
-        android:textColor="@color/colorItemTitleEditMode"
+        android:textColor="@color/colorCategoryTitleEditMode"
         android:textSize="@dimen/txt_size_group_title"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/headerGroupEdit"

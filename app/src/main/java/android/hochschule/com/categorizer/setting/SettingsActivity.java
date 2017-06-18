@@ -1,10 +1,11 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.setting;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.hochschule.com.categorizer.R;
+import android.hochschule.com.categorizer.main.MainActivity;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,56 +13,53 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.Locale;
 
-import static android.hochschule.com.categorizer.MainActivity.sharedPreferences;
+import static android.hochschule.com.categorizer.main.MainActivity.sharedPreferences;
 
-public class Settings extends AppCompatActivity {
+/**
+ * Activity dient der Einstellungsmöglichkeit der App.
+ */
+public class SettingsActivity extends AppCompatActivity {
 
-    private Switch nightmodeSwitch, languageSwitch;
-    public static boolean nightmode = false;
-    private boolean language = false;
     ConstraintLayout settings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(sharedPreferences.getBoolean("nightmode", false)){
-            Settings.this.setTheme(R.style.NightTheme);
-        }else{
-            Settings.this.setTheme(R.style.AppTheme);
+        Switch nightmodeSwitch, languageSwitch;
+
+        //App Theme anpassen
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            SettingsActivity.this.setTheme(R.style.NightTheme);
+        } else {
+            SettingsActivity.this.setTheme(R.style.AppTheme);
         }
 
         Locale current = getResources().getConfiguration().locale;
         Log.e(current.toString(), current.toString());
-        if(current.toString().equals("en_US")){
-            nightmode = true;
-        }
+
         setContentView(R.layout.activity_settings);
 
         settings = (ConstraintLayout) findViewById(R.id.settings);
         nightmodeSwitch = (Switch) findViewById(R.id.switch1);
         languageSwitch = (Switch) findViewById(R.id.switch2);
 
-        nightmode = sharedPreferences.getBoolean("nightmode", false);
-        nightmodeSwitch.setChecked(nightmode);
-        language = sharedPreferences.getBoolean("language", false);
-        languageSwitch.setChecked(language);
+        nightmodeSwitch.setChecked(sharedPreferences.getBoolean("nightmode", false));
+        languageSwitch.setChecked(sharedPreferences.getBoolean("language", false));
 
         nightmodeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Settings.this.setTheme(R.style.NightTheme);
-                    //settings.setBackgroundColor(Color.RED);
-                    //Toast.makeText(getApplicationContext(), "Switch on!", Toast.LENGTH_LONG).show();
+                    SettingsActivity.this.setTheme(R.style.NightTheme);
+                    Toast.makeText(getApplicationContext(), SettingsActivity.this.getResources().getString(R.string.toast_switch_theme_night), Toast.LENGTH_SHORT).show();
                 } else {
-                    Settings.this.setTheme(R.style.AppTheme);
-                    //settings.setBackgroundColor(Color.GREEN);
-                    //Toast.makeText(getApplicationContext(), "Switch off!", Toast.LENGTH_LONG).show();
+                    SettingsActivity.this.setTheme(R.style.AppTheme);
+                    Toast.makeText(getApplicationContext(), SettingsActivity.this.getResources().getString(R.string.toast_switch_theme_light), Toast.LENGTH_SHORT).show();
                 }
-
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("nightmode", isChecked);
@@ -74,10 +72,10 @@ public class Settings extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     setLocale("en");
-                }else{
+                } else {
                     setLocale("default");
                 }
-
+                Toast.makeText(getApplicationContext(), SettingsActivity.this.getResources().getString(R.string.toast_switch_language), Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("language", isChecked);
                 editor.commit();
@@ -85,6 +83,9 @@ public class Settings extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sprache ändern.
+     */
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = getResources();
@@ -93,13 +94,13 @@ public class Settings extends AppCompatActivity {
         conf.setLocale(myLocale);
         res.updateConfiguration(conf, dm);
 
-        Intent refresh = new Intent(this, MainActivity.class);
-        finish();
-        startActivity(refresh);
-
+        refresh();
     }
 
-    public void refresh(){
+    /**
+     * Main Activity refreshen.
+     */
+    public void refresh() {
         Intent refresh = new Intent(this, MainActivity.class);
         finish();
         startActivity(refresh);

@@ -1,4 +1,4 @@
-package android.hochschule.com.categorizer;
+package android.hochschule.com.categorizer.item;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,29 +6,29 @@ import android.os.Parcelable;
 /**
  * Klasse dient der Erstellung von Items.
  */
-class ItemClass implements Parcelable {
+public class ItemClass implements Parcelable {
 
     //Ein Item hat einen Namen und eine Beschreibung
     private String name;
     private String description;
 
-    ItemClass(String name) {
+    public ItemClass(String name) {
         this.name = name;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
