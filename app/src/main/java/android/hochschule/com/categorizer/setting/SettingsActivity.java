@@ -39,8 +39,15 @@ public class SettingsActivity extends AppCompatActivity {
             SettingsActivity.this.setTheme(R.style.AppTheme);
         }
 
+        //Sprache auf englisch stellen, falls die Systemsprache nicht deutsch ist
         Locale current = getResources().getConfiguration().locale;
         Log.e(current.toString(), current.toString());
+        if (sharedPreferences.getString("initial", null) == null && !current.toString().equals("de_DE")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("language", true);
+            editor.putString("initial", "initial");
+            editor.commit();
+        }
 
         setContentView(R.layout.activity_settings);
 
