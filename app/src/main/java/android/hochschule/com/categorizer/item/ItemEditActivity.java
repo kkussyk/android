@@ -36,12 +36,6 @@ public class ItemEditActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_item_edit);
 
-        //Farben ändern falls Nightmode
-        if (sharedPreferences.getBoolean("nightmode", false)) {
-            View headerView = findViewById(R.id.headerItemEdit);
-            headerView.setBackgroundColor(ItemEditActivity.this.getColor(R.color.colorRipple));
-        }
-
         //aktuelles Item holen
         item = getIntent().getParcelableExtra("item");
         itemEditTitle = (EditText) findViewById(R.id.itemTitleEdit);
@@ -49,6 +43,13 @@ public class ItemEditActivity extends AppCompatActivity {
         itemEditTitle.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)}); //Filter für den Namen: Max. 20 Zeichen erlaubt
         itemDescription = (EditText) findViewById(R.id.itemDescription);
         itemDescription.setText(item.getDescription()); //Item Beschreibung setzen
+
+        //Farben ändern falls Nightmode
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            View headerView = findViewById(R.id.headerItemEdit);
+            headerView.setBackgroundColor(ItemEditActivity.this.getColor(R.color.colorRipple));
+            itemEditTitle.setTextColor(ItemEditActivity.this.getColor(R.color.colorItemTitleEditModeNight));
+        }
 
         //Button zum Speichern
         FloatingActionButton btnSave = (FloatingActionButton) findViewById(R.id.itemSave);

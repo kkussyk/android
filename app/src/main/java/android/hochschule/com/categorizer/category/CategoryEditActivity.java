@@ -42,19 +42,22 @@ public class CategoryEditActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_category_edit);
 
-        //Farben ändern falls Nightmode
-        if (sharedPreferences.getBoolean("nightmode", false)) {
-            View headerView = findViewById(R.id.headerGroupEdit);
-            headerView.setBackgroundColor(CategoryEditActivity.this.getColor(R.color.colorRipple));
-            TextView groupWrapperView = (TextView) findViewById(R.id.titleItemList);
-            groupWrapperView.setBackgroundColor(Color.TRANSPARENT);
-        }
-
         //aktuelle Kategorie holen
         category = getIntent().getParcelableExtra("category");
         categoryEditTitle = (EditText) findViewById(R.id.groupTitleEdit);
         categoryEditTitle.setText(category.getName());  //aktuellen Kategorienamen setzen
         categoryEditTitle.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)}); //Filter für den Namen: Max. 20 Zeichen erlaubt
+
+        //Farben ändern falls Nightmode
+        if (sharedPreferences.getBoolean("nightmode", false)) {
+            View headerView = findViewById(R.id.headerGroupEdit);
+            headerView.setBackgroundColor(CategoryEditActivity.this.getColor(R.color.colorRipple));
+            TextView listTitleView = (TextView) findViewById(R.id.titleItemList);
+            listTitleView.setBackgroundColor(Color.TRANSPARENT);
+            categoryEditTitle.setTextColor(CategoryEditActivity.this.getColor(R.color.colorCategoryTitleEditModeNight));
+            View grpWrapperView = findViewById(R.id.groupWrapperView);
+            grpWrapperView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         //Auflisten der Items der aktuellen Kategorie zur Übersicht
         ArrayList<ItemClass> items = category.getItems();

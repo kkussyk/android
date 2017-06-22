@@ -1,28 +1,24 @@
 package android.hochschule.com.categorizer.main;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.hochschule.com.categorizer.R;
 import android.hochschule.com.categorizer.author.AuthorsActivity;
 import android.hochschule.com.categorizer.category.CategoryClass;
 import android.hochschule.com.categorizer.database.SQLHandlerClass;
-import android.database.Cursor;
 import android.hochschule.com.categorizer.expandableListAdapter.MyListAdapterClass;
 import android.hochschule.com.categorizer.item.ItemClass;
 import android.hochschule.com.categorizer.item.ItemEditActivity;
-import android.hochschule.com.categorizer.R;
 import android.hochschule.com.categorizer.setting.SettingsActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -88,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        if(sharedPreferences.getBoolean("language", false)){
+        if (sharedPreferences.getBoolean("language", false)) {
             SettingsActivity.setLocale("en", getResources());
-        }else{
+        } else {
             SettingsActivity.setLocale("default", getResources());
         }
 
@@ -102,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
         initExpandableList();
     }
 
+    @Override
+    public void onBackPressed() {
+        //Activites schließen
+        finishAffinity();
+    }
 
     @Override
     protected void onStop() {

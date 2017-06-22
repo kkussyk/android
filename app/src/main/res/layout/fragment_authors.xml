@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/authors"
         android:textColor="@color/colorTextnormal"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         android:textSize="@dimen/txt_size_group_title" />
 

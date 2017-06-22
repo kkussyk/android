@@ -24,4 +24,6 @@
     <color name="colorAccentNight">#4d514f</color>
     <color name="colorBackgroundNight">#bdbdbd</color>
     <color name="colorItemHeaderViewNight">@color/colorPrimaryNight</color>
+    <color name="colorItemTitleEditModeNight">@color/black</color>
+    <color name="colorCategoryTitleEditModeNight">@color/black</color>
 </resources>
