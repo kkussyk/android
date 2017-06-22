@@ -39,16 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
             SettingsActivity.this.setTheme(R.style.AppTheme);
         }
 
-        //Sprache auf englisch stellen, falls die Systemsprache nicht deutsch ist
-        Locale current = getResources().getConfiguration().locale;
-        Log.e(current.toString(), current.toString());
-        if (sharedPreferences.getString("initial", null) == null && !current.toString().equals("de_DE")) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("language", true);
-            editor.putString("initial", "initial");
-            editor.commit();
-        }
-
         setContentView(R.layout.activity_settings);
 
         settings = (ConstraintLayout) findViewById(R.id.settings);
@@ -78,9 +68,11 @@ public class SettingsActivity extends AppCompatActivity {
         languageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    setLocale("en");
+                    setLocale("en", getResources());
+                    refresh();
                 } else {
-                    setLocale("default");
+                    setLocale("default", getResources());
+                    refresh();
                 }
                 Toast.makeText(getApplicationContext(), SettingsActivity.this.getResources().getString(R.string.toast_switch_language), Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -93,15 +85,13 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Sprache ändern.
      */
-    public void setLocale(String lang) {
+    public static void setLocale(String lang, Resources res) {
         Locale myLocale = new Locale(lang);
-        Resources res = getResources();
+        //Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.setLocale(myLocale);
         res.updateConfiguration(conf, dm);
-
-        refresh();
     }
 
     /**

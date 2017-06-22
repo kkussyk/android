@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.hochschule.com.categorizer.author.AuthorsActivity;
 import android.hochschule.com.categorizer.category.CategoryClass;
@@ -20,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +37,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 import static android.hochschule.com.categorizer.database.DBhelperClass.COL_DESC_ITM;
 import static android.hochschule.com.categorizer.database.DBhelperClass.COL_ID_GRP;
@@ -73,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.setTheme(R.style.AppTheme);
         }
 
+        //Sprache auf englisch stellen, falls die Systemsprache nicht deutsch ist
+        Locale current = getResources().getConfiguration().locale;
+        Log.e(current.toString(), current.toString());
+        if (sharedPreferences.getString("initial", null) == null && !current.toString().equals("de_DE")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("language", true);
+            editor.putString("initial", "initial");
+            editor.commit();
+        }
+
+        if(sharedPreferences.getBoolean("language", false)){
+            SettingsActivity.setLocale("en", getResources());
+        }else{
+            SettingsActivity.setLocale("default", getResources());
+        }
+
         setContentView(R.layout.activity_main);
 
         //zu Beginn alles initialisieren
@@ -80,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         initFloatingActionButton();
         initExpandableList();
     }
+
 
     @Override
     protected void onStop() {
